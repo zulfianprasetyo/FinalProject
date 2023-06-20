@@ -1,0 +1,74 @@
+@app.route('/pengajuan_surat', methods=['POST'])
+def pengajuan_surat():
+    if request.method == 'POST':
+        jenisSurat = request.form['jenisSurat']
+        namaLengkap = request.form['namaLengkap']
+        ttl = request.form['ttl']
+        jenisKelamin = request.form['jenisKelamin']
+        alamat = request.form['alamat']
+        agama = request.form['agama']
+        nohp = request.form['nohp']
+
+        db.pengajuan_surat.insert_one({
+            'jenisSurat': jenisSurat,
+            'namaLengkap': namaLengkap,
+            'ttl': ttl,
+            'jenisKelamin': jenisKelamin,
+            'alamat': alamat,
+            'agama': agama,
+            'nohp': nohp,
+            'status': 'Pending',
+            'fileSurat': ''
+        })
+        return redirect('/pengajuan_surat')
+
+    return render_template('/pengajuan_surat_user.html')
+
+
+@app.route('/pengajuan_surat')
+def pengajuan_surat_cetak():
+    pengajuan_surat = db.pengajuan_surat.find()
+    return render_template('pengajuan_surat_user.html', surat=pengajuan_surat)
+
+
+@app.route('/validasi_surat')
+def validasi_surat():
+    if not session.get("token"):
+        return redirect(url_for("login_admin"))
+
+    try:
+        token = session["token"]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+    except jwt.InvalidTokenError:
+        return redirect(url_for("login_admin"))
+
+    pengajuan_surat = db.pengajuan_surat.find(
+        {'status': {'$in': ['Pending', 'Selesai']}})
+    return render_template('validasi_surat_admin.html', session=session, pengajuan_surat=pengajuan_surat, nama=payload["nama"], username=payload["username"], level=payload["level"])
+
+
+@app.route("/validasi_surat/verify/<nohp>", methods=['POST'])
+def verify_surat(nohp):
+    today = datetime.now()
+    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+    fileSurat = request.files['fileSurat']
+    extension = fileSurat.filename.split('.')[-1]
+    fileSurat_name = f'static/file/fileSurat-{mytime}.{extension}'
+    fileSurat.save(fileSurat_name)
+
+    db.pengajuan_surat.update_one(
+        {'nohp': nohp}, {'$set': {'fileSurat': fileSurat_name, 'status': 'Selesai'}})
+
+    return redirect(url_for("validasi_surat"))
+
+
+@app.route("/download/<fileSurat_name>", methods=['GET'])
+def download_file(fileSurat_name):
+    path = os.path.dirname(os.path.abspath(__file__))
+    filename = path+"/static/file/"+fileSurat_name
+    print(path)
+    if filename:
+        return send_file(filename, as_attachment=True)
+    else:
+        return "File not found."

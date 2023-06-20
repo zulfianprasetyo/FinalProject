@@ -1,0 +1,76 @@
+section {
+  margin-bottom: 30px;
+  border-bottom: 1px solid black;
+  padding-bottom: 50px;
+  padding-top: 30px;
+}
+
+section .container {
+  padding: 0 100px;
+}
+
+.col {
+  padding: 0 !important;
+  border: 1px solid red;
+  width: 100px !important;
+}
+
+p.card-text {
+  text-align: justify !important;
+  height: 250px;
+}
+
+h5.card-title {
+  height: 50px;
+}
+
+img.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card {
+  height: 600px;
+}
+
+section.satu {
+  margin-top: 100px;
+}
+
+section.satu img {
+  width: 350px;
+  height: 300px;
+  object-fit: cover;
+}
+
+section.satu p {
+  height: 200px;
+}
+
+section.dua img {
+  width: 100%;
+  /* height: 400px; */
+  object-fit: cover;
+}
+
+footer {
+  margin-top: -30px;
+  padding: 15px;
+}
+
+.navbar {
+  font-family: "Roboto Slab", serif;
+  background-color: #5893d4;
+}
+
+.body {
+  background-color: #edf9fc;
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+}

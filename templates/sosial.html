@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sosial Page | Siaran RT Online</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+ 
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+  
+    <!-- Fonts -->
+   <link rel="preconnect" href="https://fonts.googleapis.com" />
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300&family=Libre+Baskerville:wght@700&family=Merriweather:ital@1&family=Nunito+Sans:wght@300&family=Roboto+Slab:wght@600&display=swap" rel="stylesheet" />
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+      .navbar {
+        font-family: "Crimson Pro", serif;
+        font-family: "Libre Baskerville", serif;
+        font-family: "Merriweather", serif;
+        font-family: "Nunito Sans", sans-serif;
+        font-family: "Roboto Slab", serif;
+      }
+      .navbar {
+        background-color:  #5893d4;
+      }
+
+      .body {
+        background-color: #edf9fc;
+      }
+
+      .user-icon {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .col-5 .card {
+  background-image: url(https://i.pinimg.com/564x/f6/15/37/f615370689d2686ff55a5892f0b4ed44.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+    </style>
+    <link rel="stylesheet" href="/static/style.css" />>
+  </head>
+  <body class="d-flex flex-column" style="min-height: 100vh">
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Siaran RT Online</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/pengumuman">Pengumuman</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/sosial">Sosial</a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Layanan
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/data_warga">Data Warga</a></li>
+                <li><a class="dropdown-item" href="/pengajuan_surat">Pengajuan Surat</a></li>
+              </ul>
+            </li>                  
+
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user">
+              {% if "user" in session %}
+                <img src="{{ session['user']['fotoProfil'] }}" alt="User" class="user-icon" />
+              {% else %}
+                <img src="/static/profile_placeholder.png" alt="User" class="user-icon" />
+              {% endif %}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" style="margin-top: 80px">
+      <div class="row">
+        <div class="col overflow-auto" style="max-height: 85vh">
+          <button class="btn btn-primary w-100 my-2" data-bs-toggle="modal" data-bs-target="#myModal">Post sesuatu</button>
+
+          <!-- The Modal -->
+          <div class="modal" id="myModal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header pb-0">
+                  <h4 class="modal-title text-center w-100">Post Sosial</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form action="sosial" method="post">
+                  <div class="modal-body">
+                    <label for="isi_post" class="m-2">Isi Post</label>
+                    <textarea class="form-control" rows="5" id="isi_post" name="isi_post"></textarea>
+                  </div>
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Simpan</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- The Modal -->
+          <div class="modal" id="myModal_edit">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header pb-0">
+                  <h4 class="modal-title text-center w-100">Post Sosial</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form action="sosial_edit" method="post">
+                  <div class="modal-body">
+                    <label for="isi_post_edit" class="m-2">Isi Post</label>
+                    <textarea class="form-control" rows="5" id="isi_post_edit" name="isi_post"></textarea>
+                    <input type="hidden" name="id" id="id_post" />
+                  </div>
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Simpan</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          {% for item in data_sosial %}
+          <div class="card mb-2">
+            <div class="row">
+              <div class="col-2">
+                <div class="d-flex h-100 w-100 flex-column">
+                  <img class="img-fluid rounded-circle m-auto" style="max-width: 56px" src="{{item.foto_profil}}" alt="" />
+                </div>
+              </div>
+              <div class="col">
+                <div style="display: flex; justify-content: space-between;">
+                  {{ item.user }}
+                  {% if "user" in session and session["user"]["level"] == 1 %}
+                  <div class="px-1 mx-2">
+                    <a href="sosial_delete?id={{item._id}}">
+                      <i class="fa fa-trash-o me-2"></i>
+                    </a>
+                    <i class="fa fa-edit" onclick="buka_modal_edit('{{ item.isi }}', '{{ item._id }}')"></i>
+                  </div>
+                  {% endif %}
+                </div>
+                <div>{{ item.isi }}</div>
+                <div><i class="fa fa-heart-o mx-1" onclick="love('{{item._id}}')"></i><span>{{ item.love }}</span> <i class="fa fa-thumbs-o-up mx-1" onclick="like('{{item._id}}')"></i><span> {{ item.like }} </span></div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="col-5 card">
+          <div class="card d-flex flex-column bg-light" style="height: 85vh">
+            <div class="m-auto h1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+  <hr style="margin-top: 20px;">
+
+  <footer class="footer bg-light">
+      <div class="container text-center">
+        <p>&copy; 2023 Siaran RT Online. All rights reserved.</p>
+      </div>
+  </footer>
+  
+    <!-- Modal Login -->
+    <div class="modal" id="modal_login" data-bs-backdrop="static">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header pb-0">
+            <h4 class="modal-title text-center w-100">Login</h4>
+          </div>
+
+          <div class="modal-body d-flex justify-content-around">
+            <a href="/login" class="btn btn-outline-primary">Login User</a>
+            <a href="/login_admin" class="btn btn-outline-primary">Login Admin</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script>
+      function buka_modal_edit(isi, id) {
+        const el = document.querySelector("#myModal_edit");
+        const el_input = document.querySelector("#isi_post_edit");
+        const el_input_id = document.querySelector("#id_post");
+        el_input.value = isi;
+        id_post.value = id;
+        const modal = new bootstrap.Modal(el);
+        modal.show();
+      }
+
+      async function love(id) {
+        const el = event.target;
+
+        const ajax = await fetch("sosial_love", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            id: id,
+          }),
+        });
+        if (ajax.ok) {
+          el.nextSibling.innerText = await ajax.text();
+        }
+      }
+      async function like(id) {
+        const el = event.target;
+
+        const ajax = await fetch("sosial_like", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            id: id,
+          }),
+        });
+        if (ajax.ok) {
+          el.nextSibling.innerText = await ajax.text();
+        }
+      }
+    </script>
+
+    <!-- <script>
+      function buka_modal() {
+        const el = document.querySelector("#modal_login");
+        const modal = new bootstrap.Modal(el);
+        modal.show();
+      }
+    </script> -->
+    {% if "isLogin" not in session %}
+    <script>
+      buka_modal();
+    </script>
+    {% endif %}
+  </body>
+</html>
